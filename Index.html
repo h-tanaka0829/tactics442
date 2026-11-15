@@ -1,0 +1,1136 @@
+```html
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4-4-2 SYSTEM | 戦術原則とチームコンセプト</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans JP"', 'Inter', 'sans-serif'],
+            display: ['Inter', '"Noto Sans JP"', 'sans-serif'],
+          },
+          colors: {
+            pitch: {
+              dark: '#0f3d22',
+              base: '#155732',
+              light: '#1b6e3f',
+              stripe: '#186339'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* カスタムスタイルとSVGアニメーション制御 */
+    body {
+      background-color: #0b1120;
+      color: #f8fafc;
+    }
+
+    .pitch-bg {
+      background: repeating-linear-gradient(
+        90deg,
+        #155732,
+        #155732 45px,
+        #186339 45px,
+        #186339 90px
+      );
+    }
+
+    .player-transition {
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+    }
+
+    .ball-transition {
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .zone-transition {
+      transition: all 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* パルスアニメーション */
+    @keyframes pulseRing {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.25); opacity: 0.2; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .pulse-ring {
+      transform-origin: center;
+      transform-box: fill-box;
+      animation: pulseRing 2s infinite ease-in-out;
+    }
+
+    /* 破線フローアニメーション */
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -28; }
+    }
+    .animate-dash {
+      animation: dashFlow 1.2s linear infinite;
+    }
+
+    /* ボタンアクティブ状態 */
+    .tab-btn {
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active-blue {
+      background-color: #2563eb;
+      color: #ffffff;
+      border-color: #3b82f6;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+    .tab-btn.active-red {
+      background-color: #dc2626;
+      color: #ffffff;
+      border-color: #ef4444;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+    }
+    .tab-btn.active-emerald {
+      background-color: #059669;
+      color: #ffffff;
+      border-color: #10b981;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-white">
+
+  <!-- ナビゲーションバー -->
+  <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="w-9 h-9 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-bold shadow-lg shadow-emerald-600/30">
+          <i class="fa-solid fa-futbol"></i>
+        </span>
+        <div>
+          <span class="font-display font-extrabold tracking-tight text-lg text-white">4-4-2 PLAYBOOK</span>
+          <span class="hidden sm:inline-block text-xs text-slate-400 ml-2 border-l border-slate-700 pl-2">Tactical Principles</span>
+        </div>
+      </div>
+
+      <!-- ナビリンク -->
+      <nav class="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm font-bold">
+        <a href="#attack" class="px-3 py-2 rounded-lg text-blue-400 hover:bg-blue-950/60 transition">
+          <i class="fa-solid fa-bolt mr-1"></i>攻撃原則
+        </a>
+        <a href="#defense-org" class="px-3 py-2 rounded-lg text-red-400 hover:bg-red-950/60 transition">
+          <i class="fa-solid fa-shield-halved mr-1"></i>組織守備
+        </a>
+        <a href="#defense-line" class="px-3 py-2 rounded-lg text-emerald-400 hover:bg-emerald-950/60 transition hidden md:inline-block">
+          <i class="fa-solid fa-arrows-left-right mr-1"></i>ライン統率
+        </a>
+        <a href="#defense-group" class="px-3 py-2 rounded-lg text-amber-400 hover:bg-amber-950/60 transition hidden md:inline-block">
+          <i class="fa-solid fa-users-gear mr-1"></i>集団・個人
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ヒーローセクション -->
+  <section class="relative overflow-hidden border-b border-slate-800 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 py-14 sm:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-700/50 text-emerald-400 text-xs font-bold mb-6">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        INTERACTIVE TACTICAL BOARD
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight mb-4">
+        4-4-2システム<br class="sm:hidden">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">攻撃と守備の戦術原則</span>
+      </h1>
+      <p class="text-slate-400 text-base sm:text-lg max-w-2xl leading-relaxed mb-8">
+        ボール保持者の状況に応じた攻撃アクションから、組織的圧縮・バックライン統率・チャレンジ＆カバー・個人戦術まで、チーム全体で共有すべき判断基準を動く作戦ボードで視覚化します。
+      </p>
+
+      <!-- クイック凡例 -->
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm bg-slate-900/90 border border-slate-800 rounded-xl p-4 max-w-2xl">
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded-full bg-blue-600 border-2 border-white inline-block"></span>
+          <span class="font-bold text-slate-200">味方チーム (4-4-2)</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded-full bg-red-600 border-2 border-white inline-block"></span>
+          <span class="font-bold text-slate-200">相手チーム</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-4 h-4 rounded-full bg-amber-400 border-2 border-slate-900 inline-block"></span>
+          <span class="font-bold text-slate-200">GK / キープレイヤー</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-3.5 h-3.5 rounded-full bg-white border border-slate-900 inline-block"></span>
+          <span class="font-bold text-slate-200">ボール</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-20">
+
+    <!-- =====================================================================
+         SECTION 1: 【攻撃の原則】Attacking Principles
+    ====================================================================== -->
+    <section id="attack" class="scroll-mt-24">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-blue-400 font-display font-extrabold text-sm tracking-wider uppercase">PHASE 01 // ATTACKING PRINCIPLES</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/40 text-blue-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-bolt"></i>
+            </span>
+            【攻撃の原則】状況に応じたアクション
+          </h2>
+        </div>
+
+        <!-- インタラクティブ切替ボタン -->
+        <div class="flex bg-slate-900 p-1.5 rounded-xl border border-slate-800 self-start sm:self-auto">
+          <button id="btn-atk-forward" onclick="setAttackState('forward')" class="tab-btn active-blue px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2">
+            <i class="fa-solid fa-arrow-up-right-dots"></i> ① 前向き（追い越し）
+          </button>
+          <button id="btn-atk-backward" onclick="setAttackState('backward')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2">
+            <i class="fa-solid fa-people-arrows"></i> ② 後ろ向き（サポート）
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- 左側：戦術ボードSVG -->
+        <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 shadow-xl flex flex-col justify-between">
+          <div class="relative w-full rounded-xl overflow-hidden border-2 border-white/20 pitch-bg shadow-inner">
+            <svg id="svg-attack" viewBox="0 0 600 380" class="w-full h-auto block select-none">
+              <defs>
+                <marker id="arrow-yellow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#facc15" />
+                </marker>
+                <marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#38bdf8" />
+                </marker>
+                <marker id="arrow-white" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#ffffff" />
+                </marker>
+              </defs>
+
+              <!-- ピッチ白線 -->
+              <rect x="12" y="12" width="576" height="356" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <line x1="300" y1="12" x2="300" y2="368" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <circle cx="300" cy="190" r="50" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <!-- 相手ペナルティエリア（右側攻撃方向） -->
+              <rect x="478" y="85" width="110" height="210" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <rect x="548" y="140" width="40" height="100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <!-- 攻撃方向インジケーター -->
+              <text x="530" y="34" fill="rgba(255,255,255,0.7)" font-size="11" font-weight="bold" text-anchor="middle">ATTACK ➔</text>
+
+              <!-- === モード1: 前向き（追い越し）専用ガイド === -->
+              <g id="atk-forward-guides" class="transition-opacity duration-500">
+                <!-- 追い越しランニング矢印 -->
+                <path d="M 245 85 Q 355 50 455 80" fill="none" stroke="#facc15" stroke-width="3.5" stroke-dasharray="7,5" class="animate-dash" marker-end="url(#arrow-yellow)" />
+                <path d="M 255 295 Q 365 330 455 295" fill="none" stroke="#facc15" stroke-width="3.5" stroke-dasharray="7,5" class="animate-dash" marker-end="url(#arrow-yellow)" />
+                <!-- スルーパス軌道 -->
+                <line x1="255" y1="190" x2="440" y2="90" stroke="#ffffff" stroke-width="2.5" marker-end="url(#arrow-white)" />
+                <!-- 数的優位エリア表示 -->
+                <rect x="405" y="55" width="110" height="125" rx="12" fill="rgba(250,204,21,0.15)" stroke="#facc15" stroke-width="1.5" stroke-dasharray="4,4" />
+                <text x="460" y="47" fill="#facc15" font-size="11" font-weight="bold" text-anchor="middle">数的優位エリア創出</text>
+              </g>
+
+              <!-- === モード2: 後ろ向き（サポート）専用ガイド === -->
+              <g id="atk-backward-guides" class="opacity-0 transition-opacity duration-500">
+                <!-- サポート移動矢印 -->
+                <line x1="205" y1="100" x2="265" y2="145" stroke="#38bdf8" stroke-width="3.5" stroke-dasharray="7,5" class="animate-dash" marker-end="url(#arrow-cyan)" />
+                <line x1="230" y1="295" x2="285" y2="245" stroke="#38bdf8" stroke-width="3.5" stroke-dasharray="7,5" class="animate-dash" marker-end="url(#arrow-cyan)" />
+                <!-- 落とし・横パス軌道 -->
+                <line x1="335" y1="190" x2="280" y2="155" stroke="#ffffff" stroke-width="2.5" marker-end="url(#arrow-white)" />
+                <line x1="340" y1="200" x2="298" y2="235" stroke="#ffffff" stroke-width="2.5" marker-end="url(#arrow-white)" />
+                <text x="240" y="130" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">サポート角度確保</text>
+                <text x="255" y="275" fill="#38bdf8" font-size="11" font-weight="bold" text-anchor="middle">落としの選択肢</text>
+              </g>
+
+              <!-- 相手DF（赤） -->
+              <g id="atk-opp-cb1" class="player-transition" style="transform: translate(430px, 125px);">
+                <circle r="14" fill="#dc2626" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">CB</text>
+              </g>
+              <g id="atk-opp-cb2" class="player-transition" style="transform: translate(430px, 255px);">
+                <circle r="14" fill="#dc2626" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">CB</text>
+              </g>
+              <!-- 密着マーク相手DF -->
+              <g id="atk-opp-marker" class="player-transition" style="transform: translate(365px, 190px);">
+                <circle r="14" fill="#dc2626" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">DF</text>
+              </g>
+
+              <!-- 味方選手（青） -->
+              <!-- ボールホルダー -->
+              <g id="atk-holder" class="player-transition" style="transform: translate(235px, 190px);">
+                <circle r="19" fill="none" stroke="#facc15" stroke-width="2" class="pulse-ring" />
+                <circle r="15" fill="#1d4ed8" stroke="#facc15" stroke-width="3" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">CMF</text>
+              </g>
+
+              <!-- 連動選手1（左サイドハーフ / FW） -->
+              <g id="atk-runner1" class="player-transition" style="transform: translate(460px, 85px);">
+                <circle r="14" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">SH</text>
+              </g>
+
+              <!-- 連動選手2（右サイドハーフ / 相方CMF） -->
+              <g id="atk-runner2" class="player-transition" style="transform: translate(460px, 290px);">
+                <circle r="14" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">FW</text>
+              </g>
+
+              <!-- ボール -->
+              <g id="atk-ball" class="ball-transition" style="transform: translate(256px, 190px);">
+                <circle r="6.5" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
+              </g>
+            </svg>
+          </div>
+          <div class="mt-3 flex items-center justify-between text-xs text-slate-400 px-1">
+            <span id="atk-caption" class="font-bold text-amber-400">▶ 状態①：ボールホルダーが前向きで余裕あり → 周囲が追い越して数的優位を創出</span>
+            <span>4-4-2 Attack</span>
+          </div>
+        </div>
+
+        <!-- 右側：原則テキスト解説カード -->
+        <div class="lg:col-span-5 flex flex-col gap-4">
+          <!-- カード1 -->
+          <div id="card-atk-forward" onclick="setAttackState('forward')" class="cursor-pointer rounded-2xl p-5 border-2 border-blue-500 bg-blue-950/30 transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded bg-blue-600 text-white text-xs font-bold">原則 1 // 前向き状況</span>
+              <i class="fa-solid fa-arrow-up-right-dots text-blue-400"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">数的優位を確保する「追い越す動き」</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-3">
+              味方ボールホルダーが<strong class="text-amber-300">前向きにプレー出来る状況</strong>であれば、他の選手はボール保持者を追い越す動き（オーバーラップ／インナーラップ）を行い、前線で数的優位を確保します。
+            </p>
+            <div class="text-xs bg-slate-900/80 rounded-lg p-2.5 text-slate-400 border border-slate-800">
+              <strong class="text-blue-400">ポイント：</strong> 相手DFラインの背後やギャップへ積極的に飛び出し、パスコースと選択肢を増やす。
+            </div>
+          </div>
+
+          <!-- カード2 -->
+          <div id="card-atk-backward" onclick="setAttackState('backward')" class="cursor-pointer rounded-2xl p-5 border border-slate-800 bg-slate-900/70 hover:border-slate-700 transition-all">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2.5 py-0.5 rounded bg-slate-700 text-slate-200 text-xs font-bold">原則 2 // 後ろ向き状況</span>
+              <i class="fa-solid fa-people-arrows text-cyan-400"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">ボールを受けられる「サポート」</h3>
+            <p class="text-sm text-slate-300 leading-relaxed mb-3">
+              味方ボールホルダーが<strong class="text-cyan-300">後ろ向き（マークされている）の状況</strong>であれば、周囲の選手はボールを受けられる適切な角度・距離へ移動し、サポートをとります。
+            </p>
+            <div class="text-xs bg-slate-900/80 rounded-lg p-2.5 text-slate-400 border border-slate-800">
+              <strong class="text-cyan-400">ポイント：</strong> 落とし（レイオフ）や横パスの逃げ道を作り、前向きでプレーできる選手へボールを預け直す。
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 2: 【守備の原則 ①】組織的守備（アプローチと圧縮）
+    ====================================================================== -->
+    <section id="defense-org" class="scroll-mt-24 pt-6 border-t border-slate-800/80">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-red-400 font-display font-extrabold text-sm tracking-wider uppercase">PHASE 02-1 // ORGANIZED DEFENSE</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-red-600/20 border border-red-500/40 text-red-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-compress"></i>
+            </span>
+            【守備 ①】アプローチと全体の圧縮
+          </h2>
+        </div>
+
+        <!-- インタラクティブ切替ボタン -->
+        <div class="flex bg-slate-900 p-1.5 rounded-xl border border-slate-800 self-start sm:self-auto">
+          <button id="btn-org-base" onclick="setOrgDefenseState('base')" class="tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold">
+            初期ブロック (4-4-2)
+          </button>
+          <button id="btn-org-compress" onclick="setOrgDefenseState('compress')" class="tab-btn active-red px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2">
+            <i class="fa-solid fa-bolt"></i> アプローチ＆全体圧縮
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <!-- 左側：4-4-2全体連動SVG -->
+        <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 shadow-xl">
+          <div class="relative w-full rounded-xl overflow-hidden border-2 border-white/20 pitch-bg shadow-inner">
+            <svg viewBox="0 0 600 380" class="w-full h-auto block select-none">
+              <defs>
+                <marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#fb923c" />
+                </marker>
+                <marker id="arrow-red-bright" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#fca5a5" />
+                </marker>
+              </defs>
+
+              <!-- ピッチ白線 -->
+              <rect x="12" y="12" width="576" height="356" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <line x1="300" y1="12" x2="300" y2="368" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <circle cx="300" cy="190" r="50" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <!-- 自陣ゴール（左側） -->
+              <rect x="12" y="85" width="110" height="210" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <text x="68" y="34" fill="rgba(255,255,255,0.7)" font-size="11" font-weight="bold" text-anchor="middle">🛡 OUR GOAL</text>
+
+              <!-- コンパクトゾーン表示 -->
+              <rect id="org-compact-zone" x="155" y="32" width="225" height="225" rx="18" fill="rgba(251,146,60,0.18)" stroke="#fb923c" stroke-width="2" stroke-dasharray="6,5" class="zone-transition" />
+
+              <!-- 圧縮矢印群 -->
+              <g id="org-arrows" class="transition-opacity duration-500">
+                <!-- 最寄りDFのアプローチ矢印 -->
+                <line x1="335" y1="125" x2="405" y2="95" stroke="#fca5a5" stroke-width="4" marker-end="url(#arrow-red-bright)" />
+                <!-- 全体スライド矢印 -->
+                <line x1="130" y1="300" x2="170" y2="235" stroke="#fb923c" stroke-width="3" stroke-dasharray="5,4" class="animate-dash" marker-end="url(#arrow-orange)" />
+                <line x1="225" y1="300" x2="265" y2="235" stroke="#fb923c" stroke-width="3" stroke-dasharray="5,4" class="animate-dash" marker-end="url(#arrow-orange)" />
+                <line x1="310" y1="260" x2="340" y2="195" stroke="#fb923c" stroke-width="3" stroke-dasharray="5,4" class="animate-dash" marker-end="url(#arrow-orange)" />
+              </g>
+
+              <!-- 相手ボールホルダー（右上サイド展開） -->
+              <g style="transform: translate(430px, 85px);">
+                <circle r="19" fill="none" stroke="#ef4444" stroke-width="2" class="pulse-ring" />
+                <circle r="15" fill="#dc2626" stroke="#facc15" stroke-width="3" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">OPP</text>
+              </g>
+              <!-- ボール -->
+              <g style="transform: translate(412px, 92px);">
+                <circle r="6.5" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
+              </g>
+              <!-- 他の相手選手 -->
+              <g style="transform: translate(460px, 210px);">
+                <circle r="13" fill="#dc2626" stroke="#ffffff" stroke-width="1.5" />
+              </g>
+              <g style="transform: translate(390px, 270px);">
+                <circle r="13" fill="#dc2626" stroke="#ffffff" stroke-width="1.5" />
+              </g>
+
+              <!-- === 味方 4-4-2 ブロック === -->
+              <!-- GK -->
+              <g id="org-gk" class="player-transition" style="transform: translate(45px, 165px);">
+                <circle r="13" fill="#f59e0b" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#0f172a" font-size="9" font-weight="bold" text-anchor="middle">GK</text>
+              </g>
+
+              <!-- DFライン (4) -->
+              <g id="org-df1" class="player-transition" style="transform: translate(175px, 55px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">SB</text>
+              </g>
+              <g id="org-df2" class="player-transition" style="transform: translate(175px, 115px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">CB</text>
+              </g>
+              <g id="org-df3" class="player-transition" style="transform: translate(175px, 175px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">CB</text>
+              </g>
+              <g id="org-df4" class="player-transition" style="transform: translate(175px, 235px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">SB</text>
+              </g>
+
+              <!-- MFライン (4) -->
+              <g id="org-mf1" class="player-transition" style="transform: translate(275px, 55px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">SH</text>
+              </g>
+              <g id="org-mf2" class="player-transition" style="transform: translate(275px, 115px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">CM</text>
+              </g>
+              <g id="org-mf3" class="player-transition" style="transform: translate(275px, 175px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">CM</text>
+              </g>
+              <g id="org-mf4" class="player-transition" style="transform: translate(275px, 235px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">SH</text>
+              </g>
+
+              <!-- FWライン (2) - 最寄りのFW1がアプローチ -->
+              <g id="org-fw1" class="player-transition" style="transform: translate(395px, 102px);">
+                <circle r="15" fill="#1d4ed8" stroke="#facc15" stroke-width="3" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">1st</text>
+              </g>
+              <g id="org-fw2" class="player-transition" style="transform: translate(345px, 175px);">
+                <circle r="13" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">FW</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <!-- 右側：ポイント解説 -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-red-600 text-white font-bold flex items-center justify-center text-sm">1</span>
+              <h3 class="text-lg font-bold text-white">最も近い選手のアプローチ</h3>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              相手のボールホルダーに対して、<strong class="text-amber-300">最も近い選手が迷わずアプローチ（1st DF）</strong>をかけます。ファーストディフェンダーを即座に決定し、相手に自由な時間と空間を与えません。
+            </p>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="w-8 h-8 rounded-lg bg-orange-500 text-white font-bold flex items-center justify-center text-sm">2</span>
+              <h3 class="text-lg font-bold text-white">アプローチに対する「全体の圧縮」</h3>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed mb-3">
+              アプローチした味方守備者を基準に、<strong class="text-orange-300">4-4-2の陣形全体が縦・横にコンパクトに圧縮</strong>します。
+            </p>
+            <ul class="text-xs text-slate-400 space-y-1.5 border-t border-slate-800 pt-3">
+              <li><i class="fa-solid fa-check text-orange-400 mr-1.5"></i>逆サイドのSH・SBも中央へ絞り、パスコースを消す</li>
+              <li><i class="fa-solid fa-check text-orange-400 mr-1.5"></i>ライン間（DF-MF間）を狭め、クサビのパスを遮断する</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 3: 【守備の原則 ②】バックラインの上げ下げと背後ケア
+    ====================================================================== -->
+    <section id="defense-line" class="scroll-mt-24 pt-6 border-t border-slate-800/80">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+        <div>
+          <span class="text-emerald-400 font-display font-extrabold text-sm tracking-wider uppercase">PHASE 02-2 // BACKLINE CONTROL & GK COVER</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1 flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-arrows-left-right"></i>
+            </span>
+            【守備 ②】バックラインの上げ下げと背後ケア
+          </h2>
+        </div>
+
+        <!-- 3状態切替ボタン -->
+        <div class="flex flex-wrap bg-slate-900 p-1.5 rounded-xl border border-slate-800 gap-1">
+          <button id="btn-line-up" onclick="setBacklineState('up')" class="tab-btn active-emerald px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold">
+            ① ラインを上げる
+          </button>
+          <button id="btn-line-stop" onclick="setBacklineState('stop')" class="tab-btn text-slate-400 hover:text-white px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold">
+            ② ラインストップ
+          </button>
+          <button id="btn-line-down" onclick="setBacklineState('down')" class="tab-btn text-slate-400 hover:text-white px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold">
+            ③ ラインを下げる＋GKケア
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <!-- 左側：バックライン統率ボード -->
+        <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-3 sm:p-4 shadow-xl flex flex-col justify-between">
+          <div class="relative w-full rounded-xl overflow-hidden border-2 border-white/20 pitch-bg shadow-inner">
+            <svg viewBox="0 0 600 380" class="w-full h-auto block select-none">
+              <defs>
+                <marker id="arrow-emerald" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#34d399" />
+                </marker>
+                <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L8,3 z" fill="#fbbf24" />
+                </marker>
+              </defs>
+
+              <!-- ピッチ白線 -->
+              <rect x="12" y="12" width="576" height="356" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <line x1="300" y1="12" x2="300" y2="368" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <circle cx="300" cy="190" r="50" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <!-- 自陣ペナルティエリア（左） -->
+              <rect x="12" y="85" width="110" height="210" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+              <rect x="12" y="140" width="40" height="100" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" />
+
+              <!-- 動的ライン基準線（オフサイドライン） -->
+              <g id="line-reference" class="player-transition" style="transform: translate(235px, 0px);">
+                <line x1="0" y1="18" x2="0" y2="362" stroke="#34d399" stroke-width="2.5" stroke-dasharray="8,4" />
+                <rect x="-38" y="18" width="76" height="20" rx="4" fill="#059669" />
+                <text x="0" y="32" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">DF LINE</text>
+              </g>
+
+              <!-- GK背後ケアエリア -->
+              <g id="gk-cover-zone" class="opacity-40 transition-opacity duration-500">
+                <ellipse cx="115" cy="190" rx="55" ry="95" fill="rgba(251,191,36,0.2)" stroke="#fbbf24" stroke-width="2" stroke-dasharray="5,5" />
+                <text x="115" y="298" fill="#fbbf24" font-size="11" font-weight="bold" text-anchor="middle">GK 背後ケア領域</text>
+              </g>
+
+              <!-- 状況別矢印ガイド -->
+              <!-- UP矢印 -->
+              <g id="line-guide-up" class="transition-opacity duration-500">
+                <line x1="185" y1="190" x2="225" y2="190" stroke="#34d399" stroke-width="4" marker-end="url(#arrow-emerald)" />
+                <line x1="380" y1="190" x2="455" y2="190" stroke="#fca5a5" stroke-width="3" stroke-dasharray="5,4" />
+                <text x="420" y="175" fill="#fca5a5" font-size="11" font-weight="bold" text-anchor="middle">バックパス（下げた）</text>
+              </g>
+
+              <!-- STOP表示 -->
+              <g id="line-guide-stop" class="opacity-0 transition-opacity duration-500">
+                <line x1="185" y1="150" x2="185" y2="230" stroke="#facc15" stroke-width="5" />
+                <text x="185" y="138" fill="#facc15" font-size="12" font-weight="bold" text-anchor="middle">STOP（ステイ）</text>
+                <text x="395" y="160" fill="#fca5a5" font-size="11" font-weight="bold" text-anchor="middle">前向き・蹴れる状態</text>
+              </g>
+
+              <!-- DOWN + GK矢印 -->
+              <g id="line-guide-down" class="opacity-0 transition-opacity duration-500">
+                <line x1="185" y1="190" x2="145" y2="190" stroke="#38bdf8" stroke-width="4" marker-end="url(#arrow-cyan)" />
+                <line x1="55" y1="190" x2="105" y2="190" stroke="#fbbf24" stroke-width="3.5" marker-end="url(#arrow-amber)" />
+                <path d="M 390 190 Q 250 85 115 165" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="6,4" class="animate-dash" marker-end="url(#arrow-white)" />
+                <text x="260" y="110" fill="#ffffff" font-size="11" font-weight="bold" text-anchor="middle">背後へのロングボール</text>
+              </g>
+
+              <!-- 相手ボールホルダー（赤） -->
+              <g id="line-opp-holder" class="player-transition" style="transform: translate(470px, 190px);">
+                <circle r="15" fill="#dc2626" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="10" font-weight="bold" text-anchor="middle">OPP</text>
+              </g>
+              <!-- 相手FW（裏狙い） -->
+              <g id="line-opp-fw" class="player-transition" style="transform: translate(240px, 155px);">
+                <circle r="13" fill="#dc2626" stroke="#ffffff" stroke-width="1.5" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">FW</text>
+              </g>
+              <!-- ボール -->
+              <g id="line-ball" class="ball-transition" style="transform: translate(450px, 190px);">
+                <circle r="6.5" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
+              </g>
+
+              <!-- 味方GK -->
+              <g id="line-gk" class="player-transition" style="transform: translate(65px, 190px);">
+                <circle r="15" fill="#f59e0b" stroke="#ffffff" stroke-width="2.5" />
+                <text y="4" fill="#0f172a" font-size="10" font-weight="bold" text-anchor="middle">GK</text>
+              </g>
+
+              <!-- 味方4バック -->
+              <g id="line-df1" class="player-transition" style="transform: translate(235px, 65px);">
+                <circle r="14" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">SB</text>
+              </g>
+              <g id="line-df2" class="player-transition" style="transform: translate(235px, 148px);">
+                <circle r="14" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">CB</text>
+              </g>
+              <g id="line-df3" class="player-transition" style="transform: translate(235px, 232px);">
+                <circle r="14" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">CB</text>
+              </g>
+              <g id="line-df4" class="player-transition" style="transform: translate(235px, 315px);">
+                <circle r="14" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">SB</text>
+              </g>
+            </svg>
+          </div>
+          <div class="mt-3 text-xs text-slate-400 px-1">
+            <span id="line-caption" class="font-bold text-emerald-400">▶ ① 相手がボールを下げた瞬間 → 4バックが揃ってラインを押し上げ、陣地を回復する</span>
+          </div>
+        </div>
+
+        <!-- 右側：3つのルール＋GKケア -->
+        <div class="lg:col-span-5 flex flex-col justify-between gap-3">
+          <div id="card-line-up" onclick="setBacklineState('up')" class="cursor-pointer rounded-xl p-4 border-2 border-emerald-500 bg-emerald-950/30 transition-all">
+            <div class="flex items-center gap-2 font-bold text-emerald-400 text-sm mb-1">
+              <span>① ラインを上げる</span>
+            </div>
+            <p class="text-sm text-slate-200">
+              相手チームが<strong>ボールを下げた（バックパス）</strong>瞬間、DFラインを押し上げてコンパクトさを維持する。
+            </p>
+          </div>
+
+          <div id="card-line-stop" onclick="setBacklineState('stop')" class="cursor-pointer rounded-xl p-4 border border-slate-800 bg-slate-900/70 hover:border-slate-700 transition-all">
+            <div class="flex items-center gap-2 font-bold text-amber-400 text-sm mb-1">
+              <span>② ラインストップ</span>
+            </div>
+            <p class="text-sm text-slate-200">
+              相手が<strong>前向きにプレーする可能性がある時</strong>、ラインの上昇を止めて背後のスペースへの準備をする。
+            </p>
+          </div>
+
+          <div id="card-line-down" onclick="setBacklineState('down')" class="cursor-pointer rounded-xl p-4 border border-slate-800 bg-slate-900/70 hover:border-slate-700 transition-all">
+            <div class="flex items-center gap-2 font-bold text-cyan-400 text-sm mb-1">
+              <span>③ ラインを下げる</span>
+            </div>
+            <p class="text-sm text-slate-200">
+              相手が<strong>自陣背後を目指す（ロングボールを蹴るモーションなど）瞬間</strong>を捕らえた時、素早くラインを下げる。
+            </p>
+          </div>
+
+          <!-- GKの背後ケア強調ボックス -->
+          <div class="rounded-xl p-4 bg-amber-950/30 border border-amber-500/40 flex items-start gap-3">
+            <div class="w-8 h-8 rounded-lg bg-amber-500 text-slate-950 font-black flex items-center justify-center shrink-0 mt-0.5">
+              GK
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-amber-300 mb-1">ライン背後のケアはGKの役割</h4>
+              <p class="text-xs text-slate-300 leading-relaxed">
+                ハイライン設定時や裏へのスルーパス・ロングボールに対しては、<strong>GKが適切なポジショニングから積極的に飛び出してケア</strong>を行う。
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         SECTION 4: 【守備の原則 ③ & ④】集団守備（チャレンジ＆カバー）と個人守備戦術
+    ====================================================================== -->
+    <section id="defense-group" class="scroll-mt-24 pt-6 border-t border-slate-800/80">
+      <div class="mb-8">
+        <span class="text-amber-400 font-display font-extrabold text-sm tracking-wider uppercase">PHASE 02-3 & 02-4 // GROUP & INDIVIDUAL TACTICS</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1 flex items-center gap-3">
+          <span class="w-10 h-10 rounded-xl bg-amber-600/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-lg">
+            <i class="fa-solid fa-users-gear"></i>
+          </span>
+          【守備 ③・④】集団守備の原則と個人守備戦術
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- 左半分：③ 集団守備の原則（チャレンジ＆カバー）インタラクティブボード -->
+        <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+          <div>
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <span class="text-amber-400">③</span> 集団守備の原則（チャレンジ＆カバー）
+              </h3>
+              <!-- 2ndDF 切替ボタン -->
+              <div class="flex bg-slate-950 p-1 rounded-lg border border-slate-800 text-xs font-bold">
+                <button id="btn-cc-cover" onclick="setCCState('cover')" class="tab-btn active-emerald px-3 py-1.5 rounded-md">
+                  2ndDF 優先順位 ①〜③
+                </button>
+                <button id="btn-cc-close" onclick="setCCState('close')" class="tab-btn text-slate-400 hover:text-white px-3 py-1.5 rounded-md">
+                  ④ 後ろ向き時のクローズ
+                </button>
+              </div>
+            </div>
+
+            <!-- チャレンジ＆カバー SVG -->
+            <div class="relative w-full rounded-xl overflow-hidden border-2 border-white/20 pitch-bg mb-4">
+              <svg viewBox="0 0 560 300" class="w-full h-auto block select-none">
+                <defs>
+                  <marker id="arrow-cc-green" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#34d399" />
+                  </marker>
+                  <marker id="arrow-cc-red" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L8,3 z" fill="#f87171" />
+                  </marker>
+                </defs>
+
+                <!-- ピッチ線 -->
+                <rect x="10" y="10" width="540" height="280" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+                <line x1="280" y1="10" x2="280" y2="290" stroke="rgba(255,255,255,0.4)" stroke-width="2" />
+
+                <!-- モードA: カバー＆インターセプト狙いガイド -->
+                <g id="cc-guide-cover" class="transition-opacity duration-500">
+                  <!-- パスコース予測線 -->
+                  <line x1="395" y1="90" x2="315" y2="210" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-dasharray="5,5" />
+                  <!-- 2ndDF インターセプト狙い矢印 -->
+                  <line x1="230" y1="165" x2="310" y2="175" stroke="#34d399" stroke-width="3" stroke-dasharray="6,4" class="animate-dash" marker-end="url(#arrow-cc-green)" />
+                  <text x="275" y="148" fill="#34d399" font-size="11" font-weight="bold" text-anchor="middle">①インターセプト / ②コントロール狙い</text>
+                  <text x="230" y="210" fill="#cbd5e1" font-size="10" font-weight="bold" text-anchor="middle">③遅らせる（カバーリング）</text>
+                </g>
+
+                <!-- モードB: 後ろ向きクローズガイド -->
+                <g id="cc-guide-close" class="opacity-0 transition-opacity duration-500">
+                  <!-- サンドイッチ挟み込み矢印 -->
+                  <line x1="230" y1="165" x2="290" y2="195" stroke="#f87171" stroke-width="4" marker-end="url(#arrow-cc-red)" />
+                  <circle cx="315" cy="210" r="36" fill="rgba(239,68,68,0.2)" stroke="#f87171" stroke-width="2" stroke-dasharray="4,4" />
+                  <text x="315" y="262" fill="#fca5a5" font-size="11" font-weight="bold" text-anchor="middle">④ 後ろ向き＝前向き制限 → 一気にクローズ！</text>
+                </g>
+
+                <!-- 相手パサー -->
+                <g style="transform: translate(405px, 85px);">
+                  <circle r="14" fill="#dc2626" stroke="#ffffff" stroke-width="2" />
+                  <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">OPP1</text>
+                </g>
+
+                <!-- 相手受け手（ターゲット） -->
+                <g id="cc-opp-target" class="player-transition" style="transform: translate(315px, 210px);">
+                  <circle r="15" fill="#dc2626" stroke="#facc15" stroke-width="2.5" />
+                  <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">OPP2</text>
+                </g>
+
+                <!-- ボール -->
+                <g id="cc-ball" class="ball-transition" style="transform: translate(388px, 95px);">
+                  <circle r="6" fill="#ffffff" stroke="#0f172a" stroke-width="2" />
+                </g>
+
+                <!-- 1st DF（チャレンジ） -->
+                <g id="cc-df1" class="player-transition" style="transform: translate(365px, 110px);">
+                  <circle r="14" fill="#1d4ed8" stroke="#ffffff" stroke-width="2" />
+                  <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">1st</text>
+                </g>
+
+                <!-- 2nd DF（カバー / クローズ） -->
+                <g id="cc-df2" class="player-transition" style="transform: translate(230px, 165px);">
+                  <circle r="18" fill="none" stroke="#34d399" stroke-width="2" class="pulse-ring" />
+                  <circle r="15" fill="#2563eb" stroke="#34d399" stroke-width="3" />
+                  <text y="4" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">2nd</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- 2ndDF 優先順位リスト -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5">
+              <p class="font-bold text-emerald-400 mb-2">2ndDFの優先順位（①〜③の繰り返し）</p>
+              <ol class="space-y-1 text-slate-300 font-medium">
+                <li><span class="text-emerald-400 font-bold">① インターセプト</span>を狙う</li>
+                <li><span class="text-emerald-400 font-bold">② 相手コントロール時</span>に狙う</li>
+                <li><span class="text-emerald-400 font-bold">③ 遅らせる</span>（ディレイ）</li>
+              </ol>
+            </div>
+            <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5">
+              <p class="font-bold text-red-400 mb-2">④ 後ろ向きにさせた時の対応</p>
+              <p class="text-slate-300 leading-relaxed">
+                相手選手を後ろ向きにさせた場合は、前向きのプレーに制限を与えているため、<strong class="text-red-300">2ndDFなどが一気に相手をクローズ</strong>しにいく。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右半分：④ 個人守備戦術 -->
+        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2 mb-4">
+              <span class="text-amber-400">④</span> 個人守備戦術（1v1の基本原則）
+            </h3>
+
+            <!-- 個人戦術ビジュアルSVG（進路限定と間合い） -->
+            <div class="relative w-full rounded-xl overflow-hidden border-2 border-white/20 pitch-bg mb-5">
+              <svg viewBox="0 0 400 180" class="w-full h-auto block select-none">
+                <defs>
+                  <marker id="arrow-limit" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L7,3 z" fill="#facc15" />
+                  </marker>
+                </defs>
+                <!-- 自陣ゴール方向（左） -->
+                <rect x="8" y="40" width="32" height="100" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="1.5" />
+                <text x="24" y="94" fill="#fca5a5" font-size="9" font-weight="bold" text-anchor="middle" transform="rotate(-90 24 94)">GOAL</text>
+
+                <!-- 中央危険コース遮断 -->
+                <line x1="250" y1="90" x2="95" y2="90" stroke="#ef4444" stroke-width="2" stroke-dasharray="4,4" />
+                <text x="145" y="82" fill="#fca5a5" font-size="10" font-weight="bold">✖ 中央・利き足コース遮断</text>
+
+                <!-- 外側誘導矢印 -->
+                <path d="M 250 90 Q 210 145 140 155" fill="none" stroke="#facc15" stroke-width="3" stroke-dasharray="5,4" class="animate-dash" marker-end="url(#arrow-limit)" />
+                <text x="215" y="165" fill="#facc15" font-size="10" font-weight="bold">誘導方向（ゴールから遠ざける）</text>
+
+                <!-- 間合いリング -->
+                <circle cx="250" cy="90" r="38" fill="none" stroke="rgba(56,189,248,0.6)" stroke-width="1.5" stroke-dasharray="3,3" />
+                <text x="318" y="65" fill="#38bdf8" font-size="9.5" font-weight="bold">能力に応じた間合い</text>
+
+                <!-- 相手攻撃者 -->
+                <circle cx="250" cy="90" r="13" fill="#dc2626" stroke="#ffffff" stroke-width="2" />
+                <circle cx="235" cy="90" r="5" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" />
+
+                <!-- 守備者（半身でコース限定） -->
+                <circle cx="212" cy="78" r="14" fill="#2563eb" stroke="#facc15" stroke-width="2.5" />
+                <text x="212" y="82" fill="#fff" font-size="9" font-weight="bold" text-anchor="middle">DF</text>
+              </svg>
+            </div>
+
+            <!-- 3つの原則リスト -->
+            <div class="space-y-3">
+              <div class="flex items-start gap-3 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">①</span>
+                <div>
+                  <h4 class="text-sm font-bold text-white">ボールを奪うことが最優先</h4>
+                  <p class="text-xs text-slate-400 mt-0.5">単なる遅延ではなく、常にボール奪取のチャンスを最優先に狙う。</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">②</span>
+                <div>
+                  <h4 class="text-sm font-bold text-white">相手の能力に応じた間合いの調整</h4>
+                  <p class="text-xs text-slate-400 mt-0.5">スピードやドリブル技術など、相手の個人能力によって適切な間合いを変化させる。</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+                <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">③</span>
+                <div>
+                  <h4 class="text-sm font-bold text-white">進路の限定</h4>
+                  <p class="text-xs text-slate-400 mt-0.5">利き足とは逆足でプレーさせる、自陣ゴールから離していくアプローチで選択肢を奪う。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- フッター -->
+  <footer class="border-t border-slate-800 bg-slate-950 py-8 mt-16">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center gap-2 font-bold text-slate-400">
+        <i class="fa-solid fa-futbol text-emerald-500"></i>
+        <span>4-4-2 SYSTEM TACTICAL PLAYBOOK</span>
+      </div>
+      <p>Ready for GitHub Pages // Single-File Interactive Tactical Board</p>
+    </div>
+  </footer>
+
+  <!-- インタラクティブアニメーション制御スクリプト -->
+  <script>
+    // 1. 【攻撃の原則】状態切替
+    function setAttackState(mode) {
+      const btnFwd = document.getElementById('btn-atk-forward');
+      const btnBwd = document.getElementById('btn-atk-backward');
+      const cardFwd = document.getElementById('card-atk-forward');
+      const cardBwd = document.getElementById('card-atk-backward');
+
+      const guidesFwd = document.getElementById('atk-forward-guides');
+      const guidesBwd = document.getElementById('atk-backward-guides');
+
+      const holder = document.getElementById('atk-holder');
+      const ball = document.getElementById('atk-ball');
+      const runner1 = document.getElementById('atk-runner1');
+      const runner2 = document.getElementById('atk-runner2');
+      const marker = document.getElementById('atk-opp-marker');
+      const caption = document.getElementById('atk-caption');
+
+      if (mode === 'forward') {
+        // ボタン＆カードスタイル
+        btnFwd.className = 'tab-btn active-blue px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2';
+        btnBwd.className = 'tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2';
+        cardFwd.className = 'cursor-pointer rounded-2xl p-5 border-2 border-blue-500 bg-blue-950/30 transition-all';
+        cardBwd.className = 'cursor-pointer rounded-2xl p-5 border border-slate-800 bg-slate-900/70 hover:border-slate-700 transition-all';
+
+        // ガイド表示
+        guidesFwd.classList.remove('opacity-0');
+        guidesBwd.classList.add('opacity-0');
+
+        // 選手座標アニメーション（前向き＆追い越し）
+        holder.style.transform = 'translate(235px, 190px)';
+        ball.style.transform = 'translate(256px, 190px)';
+        marker.style.transform = 'translate(365px, 190px)';
+        runner1.style.transform = 'translate(460px, 85px)';
+        runner2.style.transform = 'translate(460px, 290px)';
+
+        caption.textContent = '▶ 状態①：ボールホルダーが前向きで余裕あり → 周囲が追い越して数的優位を創出';
+        caption.className = 'font-bold text-amber-400';
+      } else {
+        // ボタン＆カードスタイル
+        btnBwd.className = 'tab-btn active-blue px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2';
+        btnFwd.className = 'tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2';
+        cardBwd.className = 'cursor-pointer rounded-2xl p-5 border-2 border-cyan-500 bg-cyan-950/30 transition-all';
+        cardFwd.className = 'cursor-pointer rounded-2xl p-5 border border-slate-800 bg-slate-900/70 hover:border-slate-700 transition-all';
+
+        // ガイド表示
+        guidesFwd.classList.add('opacity-0');
+        guidesBwd.classList.remove('opacity-0');
+
+        // 選手座標アニメーション（後ろ向きマーク＆サポート接近）
+        holder.style.transform = 'translate(345px, 190px)';
+        ball.style.transform = 'translate(325px, 190px)';
+        marker.style.transform = 'translate(373px, 190px)'; // 背後から密着マーク
+        runner1.style.transform = 'translate(270px, 148px)'; // サポート位置へ移動
+        runner2.style.transform = 'translate(290px, 240px)'; // 落としサポートへ移動
+
+        caption.textContent = '▶ 状態②：ボールホルダーが後ろ向き（マーク） → 周囲がサポート角度・距離を確保';
+        caption.className = 'font-bold text-cyan-400';
+      }
+    }
+
+    // 2. 【守備 ①】アプローチと全体圧縮切替
+    function setOrgDefenseState(mode) {
+      const btnBase = document.getElementById('btn-org-base');
+      const btnComp = document.getElementById('btn-org-compress');
+      const zone = document.getElementById('org-compact-zone');
+      const arrows = document.getElementById('org-arrows');
+
+      const df1 = document.getElementById('org-df1');
+      const df2 = document.getElementById('org-df2');
+      const df3 = document.getElementById('org-df3');
+      const df4 = document.getElementById('org-df4');
+      const mf1 = document.getElementById('org-mf1');
+      const mf2 = document.getElementById('org-mf2');
+      const mf3 = document.getElementById('org-mf3');
+      const mf4 = document.getElementById('org-mf4');
+      const fw1 = document.getElementById('org-fw1');
+      const fw2 = document.getElementById('org-fw2');
+
+      if (mode === 'compress') {
+        btnComp.className = 'tab-btn active-red px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2';
+        btnBase.className = 'tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold';
+
+        zone.style.opacity = '1';
+        arrows.classList.remove('opacity-0');
+
+        // ボールサイド（上側）へコンパクトに圧縮
+        df1.style.transform = 'translate(175px, 55px)';
+        df2.style.transform = 'translate(175px, 115px)';
+        df3.style.transform = 'translate(175px, 175px)';
+        df4.style.transform = 'translate(175px, 235px)';
+
+        mf1.style.transform = 'translate(275px, 55px)';
+        mf2.style.transform = 'translate(275px, 115px)';
+        mf3.style.transform = 'translate(275px, 175px)';
+        mf4.style.transform = 'translate(275px, 235px)';
+
+        fw1.style.transform = 'translate(395px, 102px)'; // 1st DF アプローチ
+        fw2.style.transform = 'translate(345px, 175px)';
+      } else {
+        btnBase.className = 'tab-btn active-red px-4 py-2 rounded-lg text-xs sm:text-sm font-bold';
+        btnComp.className = 'tab-btn text-slate-400 hover:text-white px-4 py-2 rounded-lg text-xs sm:text-sm font-bold flex items-center gap-2';
+
+        zone.style.opacity = '0';
+        arrows.classList.add('opacity-0');
+
+        // 初期の均等4-4-2ブロック
+        df1.style.transform = 'translate(140px, 65px)';
+        df2.style.transform = 'translate(140px, 148px)';
+        df3.style.transform = 'translate(140px, 232px)';
+        df4.style.transform = 'translate(140px, 315px)';
+
+        mf1.style.transform = 'translate(240px, 65px)';
+        mf2.style.transform = 'translate(240px, 148px)';
+        mf3.style.transform = 'translate(240px, 232px)';
+        mf4.style.transform = 'translate(240px, 315px)';
+
+        fw1.style.transform = 'translate(335px, 145px)';
+        fw2.style.transform = 'translate(335px, 235px)';
+      }
+    }
+
+    // 3. 【守備 ②】バックラインの上げ下げ切替
+    function setBacklineState(mode) {
+      const buttons = {
+        up: document.getElementById('btn-line-up'),
+        stop: document.getElementById('btn-line-stop'),
+        down: document.getElementById('btn-line-down')
+      };
+      const cards = {
+        up: document.getElementById('card-line-up'),
+        stop: document.getElementById('card-line-stop'),
+        down: document.getElementById('card-line-down')
+      };
+      const guides = {
+        up: document.getElementById('line-guide-up'),
+        stop: document.getElementById('line-guide-stop'),
+        down: document.getElementById('line-guide-down')
+      };
+
+      // リセット
+      Object.values(buttons).forEach(b => b.className = 'tab-btn text-slate-400 hover:text-white px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold');
+      Object.values(cards).forEach(c => c.className = 'cursor-pointer rounded-xl p-4 border border-slate-800 bg-slate-900/70 hover:border-slate-700 transition-all');
+      Object.values(guides).forEach(g => g.classList.add('opacity-0'));
+
+      const lineRef = document.getElementById('line-reference');
+      const df1 = document.getElementById('line-df1');
+      const df2 = document.getElementById('line-df2');
+      const df3 = document.getElementById('line-df3');
+      const df4 = document.getElementById('line-df4');
+      const gk = document.getElementById('line-gk');
+      const gkZone = document.getElementById('gk-cover-zone');
+      const oppHolder = document.getElementById('line-opp-holder');
+      const oppFw = document.getElementById('line-opp-fw');
+      const ball = document.getElementById('line-ball');
+      const caption = document.getElementById('line-caption');
+
+      if (mode === 'up') {
+        buttons.up.className = 'tab-btn active-emerald px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold';
+        cards.up.className = 'cursor-pointer rounded-xl p-4 border-2 border-emerald-500 bg-emerald-950/30 transition-all';
+        guides.up.classList.remove('opacity-0');
+
+        lineRef.style.transform = 'translate(235px, 0px)';
+        df1.style.transform = 'translate(235px, 65px)';
+        df2.style.transform = 'translate(235px, 148px)';
+        df3.style.transform = 'translate(235px, 232px)';
+        df4.style.transform = 'translate(235px, 315px)';
+        gk.style.transform = 'translate(75px, 190px)';
+        gkZone.style.opacity = '0.45';
+
+        oppHolder.style.transform = 'translate(470px, 190px)';
+        ball.style.transform = 'translate(450px, 190px)';
+        oppFw.style.transform = 'translate(245px, 155px)';
+
+        caption.textContent = '▶ ① 相手がボールを下げた瞬間 → 4バックが揃ってラインを押し上げ、陣地を回復する';
+        caption.className = 'font-bold text-emerald-400';
+      } else if (mode === 'stop') {
+        buttons.stop.className = 'tab-btn active-emerald px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold';
+        cards.stop.className = 'cursor-pointer rounded-xl p-4 border-2 border-amber-500 bg-amber-950/30 transition-all';
+        guides.stop.classList.remove('opacity-0');
+
+        lineRef.style.transform = 'translate(195px, 0px)';
+        df1.style.transform = 'translate(195px, 65px)';
+        df2.style.transform = 'translate(195px, 148px)';
+        df3.style.transform = 'translate(195px, 232px)';
+        df4.style.transform = 'translate(195px, 315px)';
+        gk.style.transform = 'translate(65px, 190px)';
+        gkZone.style.opacity = '0.6';
+
+        oppHolder.style.transform = 'translate(395px, 190px)';
+        ball.style.transform = 'translate(375px, 190px)';
+        oppFw.style.transform = 'translate(200px, 155px)';
+
+        caption.textContent = '▶ ② 相手が前向きでプレーできる状況 → ラインの上昇をストップし、背後の飛び出しに備える';
+        caption.className = 'font-bold text-amber-400';
+      } else if (mode === 'down') {
+        buttons.down.className = 'tab-btn active-emerald px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold';
+        cards.down.className = 'cursor-pointer rounded-xl p-4 border-2 border-cyan-500 bg-cyan-950/30 transition-all';
+        guides.down.classList.remove('opacity-0');
+
+        lineRef.style.transform = 'translate(140px, 0px)';
+        df1.style.transform = 'translate(140px, 65px)';
+        df2.style.transform = 'translate(140px, 148px)';
+        df3.style.transform = 'translate(140px, 232px)';
+        df4.style.transform = 'translate(140px, 315px)';
+        gk.style.transform = 'translate(105px, 180px)'; // GKが積極的に前へ飛び出しケア
+        gkZone.style.opacity = '1';
+
+        oppHolder.style.transform = 'translate(395px, 190px)';
+        ball.style.transform = 'translate(122px, 175px)'; // 裏へのロングボール
+        oppFw.style.transform = 'translate(148px, 155px)';
+
+        caption.textContent = '▶ ③ 背後へのロングボールモーション → ラインを下げつつ、裏のスペースはGKが飛び出してケア';
+        caption.className = 'font-bold text-cyan-400';
+      }
+    }
+
+    // 4. 【守備 ③】集団守備（チャレンジ＆カバー）状態切替
+    function setCCState(mode) {
+      const btnCover = document.getElementById('btn-cc-cover');
+      const btnClose = document.getElementById('btn-cc-close');
+      const guideCover = document.getElementById('cc-guide-cover');
+      const guideClose = document.getElementById('cc-guide-close');
+      const df2 = document.getElementById('cc-df2');
+      const ball = document.getElementById('cc-ball');
+
+      if (mode === 'cover') {
+        btnCover.className = 'tab-btn active-emerald px-3 py-1.5 rounded-md';
+        btnClose.className = 'tab-btn text-slate-400 hover:text-white px-3 py-1.5 rounded-md';
+        guideCover.classList.remove('opacity-0');
+        guideClose.classList.add('opacity-0');
+
+        df2.style.transform = 'translate(230px, 165px)';
+        ball.style.transform = 'translate(388px, 95px)';
+      } else {
+        btnClose.className = 'tab-btn active-red px-3 py-1.5 rounded-md';
+        btnCover.className = 'tab-btn text-slate-400 hover:text-white px-3 py-1.5 rounded-md';
+        guideCover.classList.add('opacity-0');
+        guideClose.classList.remove('opacity-0');
+
+        // 相手が後ろ向きでボールを受けた瞬間に2ndDFが一気にクローズ
+        ball.style.transform = 'translate(328px, 202px)';
+        df2.style.transform = 'translate(292px, 196px)';
+      }
+    }
+  </script>
+</body>
+</html>
+```
